@@ -25,7 +25,6 @@ pub fn main() !void {
         }
     }
     const u = VectorMath.Vec3.init(5, 6, 7);
-    const v = VectorMath.Vec3.init(5, 6, 7);
-    const result = VectorMath.CrossProduct(u, v);
+    const result = VectorMath.UnitVector(u);
     std.debug.print("{d:.1}, {d:.1}, {d:.1}\n", .{ result.x, result.y, result.z });
 }

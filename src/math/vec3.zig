@@ -26,3 +26,7 @@ pub inline fn DotProduct(u: Vec3, v: Vec3) f32 {
 pub inline fn CrossProduct(u: Vec3, v: Vec3) Vec3 {
     return Vec3.init((u.y * v.z) - (u.z * v.y), (u.z * v.x) - (u.x * v.z), (u.x * v.y) - (u.y * v.x));
 }
+pub inline fn UnitVector(u: Vec3) Vec3 {
+    const len = length(u);
+    return Vec3.init((u.x / len), (u.y / len), (u.z / len));
+}
