@@ -24,10 +24,8 @@ pub fn main() !void {
             std.debug.print("{0} {1} {2}\n", .{ ir, ig, ib });
         }
     }
-    const u = VectorMath.Vec3.init(5.0, 7.0, 6.0);
-    const v = VectorMath.Vec3.init(5.0, 7.0, 6.0);
-    const resultLen = VectorMath.length(u);
-    const resultMultiply = VectorMath.multiplyVecByVec(u, v);
-    std.debug.print("{d:.1},\n", .{resultLen});
-    std.debug.print("{d:.1} {d:.1} {d:.1},\n", .{ resultMultiply.x, resultMultiply.y, resultMultiply.z });
+    const u = VectorMath.Vec3.init(5, 6, 7);
+    const v = VectorMath.Vec3.init(5, 6, 7);
+    const result = VectorMath.CrossProduct(u, v);
+    std.debug.print("{d:.1}, {d:.1}, {d:.1}\n", .{ result.x, result.y, result.z });
 }
