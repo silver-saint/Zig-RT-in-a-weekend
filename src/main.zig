@@ -11,10 +11,9 @@ pub fn main() !void {
     // 1 < 6;
     for (0..imageHeight) |height| {
         for (0..imageWidth) |width| {
-            var red: f32 = @floatFromInt(width);
-            red /= (imageWidth - 1);
-            var green: f32 = @floatFromInt(height);
-            green /= (imageHeight - 1);
+            const red: f32 = (@as(f32, @floatFromInt(width)) / @as(f32, @floatFromInt(imageWidth - 1)));
+            const green: f32 = @as(f32, @floatFromInt(height)) / @as(f32, @floatFromInt(imageHeight - 1));
+            //green /= (imageHeight - 1);
             const blue: f32 = 0.0;
 
             const ir: i32 = @intFromFloat(red * 259.999);
