@@ -8,6 +8,7 @@ pub const Vec3 = packed struct {
         return Vec3{ .x = x, .y = y, .z = z };
     }
 };
+
 pub inline fn length(vec: Vec3) f32 {
     return std.math.sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
 }
