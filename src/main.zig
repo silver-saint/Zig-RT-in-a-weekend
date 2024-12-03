@@ -1,5 +1,6 @@
 const std = @import("std");
 const color = @import("./math/color.zig");
+const ray = @import("./math//ray.zig");
 pub fn main() !void {
     const imageWidth: i32 = 512;
     const imageHeight: i32 = 512;
