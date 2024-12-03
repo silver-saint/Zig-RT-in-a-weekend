@@ -8,7 +8,9 @@ pub const Vec3 = packed struct {
         return Vec3{ .x = x, .y = y, .z = z };
     }
 };
-
+pub inline fn SubVecFromVec(u: Vec3, v: Vec3) Vec3 {
+    return Vec3.init(u.x - v.x, u.y - v.y, u.z - v.z);
+}
 pub inline fn length(vec: Vec3) f32 {
     return std.math.sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
 }
