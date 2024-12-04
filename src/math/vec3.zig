@@ -8,6 +8,9 @@ pub const Vec3 = packed struct {
         return Vec3{ .x = x, .y = y, .z = z };
     }
 };
+pub inline fn SubScalerFromVec(val: f32, v: Vec3) Vec3 {
+    return Vec3.init(val - v.x, val - v.y, val - v.z);
+}
 pub inline fn SubVecFromVec(u: Vec3, v: Vec3) Vec3 {
     return Vec3.init(u.x - v.x, u.y - v.y, u.z - v.z);
 }
