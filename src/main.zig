@@ -5,11 +5,11 @@ const Vec3 = VectorMath.Vec3;
 const ray = @import("./math//ray.zig");
 
 pub fn ray_color(r: ray) Vec3 {
-    const unitDir = .UnitVector(r.direction);
+    const unitDir: Vec3 = .UnitVector(r.direction);
     const a = .ScaleVecByT(0.5, unitDir.y + 1.0);
     const startVal = .Init(1.0, 1.0, 1.0);
-    const endVal = .ScaleVecByVec(a, (VectorMath.Vec3.Init(0.5, 0.7, 1.0)));
-    const result = .AddVecToVec(VectorMath.ScaleVecByVec(VectorMath.SubScalerFromVec(1.0, a), startVal), VectorMath.ScaleVecByVec(a, endVal));
+    const endVal = .ScaleVecByVec(a, (.Init(0.5, 0.7, 1.0)));
+    const result = .AddVecToVec(.ScaleVecByVec(.SubScalerFromVec(1.0, a), startVal), .ScaleVecByVec(a, endVal));
     return result;
 }
 
@@ -25,7 +25,7 @@ pub fn main() !void {
     const focalLength: f32 = 1.0;
     const viewportHeight: f32 = 2.0;
     const viewportWidth: f32 = viewportHeight * (@as(f32, @floatFromInt(imageWidth)) / @as(f32, @floatFromInt(imageHeight)));
-    const cameraCenter: Vec3 = .init(0, 0, 0);
+    const cameraCenter: Vec3 = .Init(0, 0, 0);
 
     const viewport_u: Vec3 = .Init(viewportWidth, 0, 0);
     const viewport_v: Vec3 = .Init(0, -viewportHeight, 0);
