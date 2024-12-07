@@ -35,4 +35,5 @@ pub const Vec3 = packed struct {
         const len = Length(u);
         return Vec3.Init((u.x / len), (u.y / len), (u.z / len));
     }
+
 };
