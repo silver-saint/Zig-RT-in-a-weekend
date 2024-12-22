@@ -1,16 +1,16 @@
 const std = @import("std");
-const VectorMath = @import("./vec3.zig");
-
+const vector_math = @import("./vec3.zig");
+const vec3 = vector_math.Vec3;
 pub const Ray = struct {
-    origin: VectorMath.Vec3,
-    direction: VectorMath.Vec3,
-    pub fn Init(orig: VectorMath.Vec3, dir: VectorMath.Vec3) Ray {
+    origin: vec3,
+    direction: vec3,
+    pub fn init(orig: vec3, dir: vec3) Ray {
         return Ray{
             .origin = orig,
             .direction = dir,
         };
     }
-    pub fn At(t: f32) VectorMath.Vec3 {
-        return VectorMath.AddVecToVec(.origin, VectorMath.ScaleVecByT(t, .direction));
+    pub fn at(t: f32) vec3 {
+        return .addVecToVec(.origin, vector_math.scaleVecByT(t, .direction));
     }
 };

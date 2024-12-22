@@ -1,53 +1,52 @@
 const std = @import("std");
 const color = @import("./math/color.zig");
-const VectorMath = @import("./math/vec3.zig");
-const ray = @import("./math/ray.zig");
-const Vec3 = VectorMath.Vec3;
-const Ray = ray.Ray;
+const vector_math = @import("./math/vec3.zig");
+const Ray = @import("./math/ray.zig");
+const vec3 = vector_math.Vec3;
+const ray = Ray.Ray;
 
-
-pub fn RayColor(r: Ray) Vec3 {
-    const unitDir: Vec3 = .UnitVector(r.direction);
-    const a: f32 = (0.5 * (unitDir.y + 1.0));
-    const startVal: Vec3 = .Init(1.0, 1.0, 1.0);
-    const endVal: Vec3 = .ScaleVecByT(a, (.Init(0.5, 0.7, 1.0)));
-    const result: Vec3 = .AddVecToVec(.ScaleVecByT((1.0 - a), startVal), .ScaleVecByT(a, endVal));
+pub fn rayColor(r: ray) vec3 {
+    const unit_dir: vec3 = .unitVector(r.direction);
+    const a: f32 = (0.5 * (unit_dir.y + 1.0));
+    const start_val: vec3 = .init(1.0, 1.0, 1.0);
+    const end_val: vec3 = .scaleVecByT(a, (.init(0.5, 0.7, 1.0)));
+    const result: vec3 = .addVecToVec(.scaleVecByT((1.0 - a), start_val), .scaleVecByT(a, end_val));
     return result;
 }
 
 pub fn main() !void {
-    const imageWidth: i32 = 400;
-    const aspectRatio: f32 = (16.0 / 9.0);
-    var imageHeight = imageWidth / (@as(usize, @intFromFloat(aspectRatio)));
+    const image_width: i32 = 1920;
+    const aspect_ratio: f32 = (16.0 / 9.0);
+    var image_height = image_width / (@as(usize, @intFromFloat(aspect_ratio)));
 
-    if (imageHeight < 1) {
-        imageHeight = 1;
+    if (image_height < 1) {
+        image_height = 1;
     }
-    
-    const focalLength: f32 = 1.0;
-    const viewportHeight: f32 = 2.0;
-    const viewportWidth: f32 = viewportHeight * (@as(f32, @floatFromInt(imageWidth)) / @as(f32, @floatFromInt(imageHeight)));
-    const cameraCenter: Vec3 = .Init(0, 0, 0);
 
-    const viewport_u: Vec3 = .Init(viewportWidth, 0, 0);
-    const viewport_v: Vec3 = .Init(0, -viewportHeight, 0);
-    const pixel_delta_u: Vec3 = .ScaleVecByT(1 / @as(f32, @floatFromInt(imageWidth)), viewport_u);
-    const pixel_delta_v: Vec3 = .ScaleVecByT(1 / @as(f32, @floatFromInt(imageHeight)), viewport_v);
-    const cameraFocalLen: Vec3 = .Init(0, 0, focalLength);
-    
-    const viewport_upper_left: Vec3 = .SubVecFromVec(.SubVecFromVec(.SubVecFromVec(cameraCenter, cameraFocalLen), .ScaleVecByT(0.5, viewport_u)), .ScaleVecByT(0.5, viewport_v));
-    const pixel00_loc: Vec3 = .AddVecToVec(viewport_upper_left, .ScaleVecByT(0.5, .AddVecToVec(pixel_delta_u, pixel_delta_v)));
+    const focal_length: f32 = 1.0;
+    const viewport_height: f32 = 2.0;
+    const viewport_width: f32 = viewport_height * (@as(f32, @floatFromInt(image_width)) / @as(f32, @floatFromInt(image_height)));
+    const camera_center: vec3 = .init(0, 0, 0);
+
+    const viewport_u: vec3 = .init(viewport_width, 0, 0);
+    const viewport_v: vec3 = .init(0, -viewport_height, 0);
+    const pixel_delta_u: vec3 = .scaleVecByT(1 / @as(f32, @floatFromInt(image_width)), viewport_u);
+    const pixel_delta_v: vec3 = .scaleVecByT(1 / @as(f32, @floatFromInt(image_height)), viewport_v);
+    const camera_focal_len: vec3 = .init(0, 0, focal_length);
+
+    const viewport_upper_left: vec3 = .subVecFromVec(.subVecFromVec(.subVecFromVec(camera_center, camera_focal_len), .scaleVecByT(0.5, viewport_u)), .scaleVecByT(0.5, viewport_v));
+    const pixel00_loc: vec3 = .addVecToVec(viewport_upper_left, .scaleVecByT(0.5, .addVecToVec(pixel_delta_u, pixel_delta_v)));
     //  const file = try std.fs.cwd().createFile("image.ppm", .{ .read = true });
     // defer file.close();
 
-    std.debug.print("P3\n {0} {1}\n255\n", .{ imageWidth, imageHeight });
-    for (0..imageHeight) |height| {
-    for (0..imageWidth) |width| {
-        const pixelCenter: Vec3 = .AddVecToVec(.AddVecToVec(pixel00_loc,.ScaleVecByT(@as(f32, @floatFromInt(width)),  pixel_delta_u)), .ScaleVecByT(@as(f32, @floatFromInt(height)), pixel_delta_v));
-        const rayDirection: Vec3 = .SubVecFromVec(pixelCenter, cameraCenter);
-        const r: Ray = .Init(cameraCenter, rayDirection);
-        const pixelColor = RayColor(r);
-        color.WriteColor(pixelColor);
-      }
-     }
+    std.debug.print("P3\n {0} {1}\n255\n", .{ image_width, image_height });
+    for (0..image_height) |height| {
+        for (0..image_width) |width| {
+            const pixel_center: vec3 = .addVecToVec(.addVecToVec(pixel00_loc, .scaleVecByT(@as(f32, @floatFromInt(width)), pixel_delta_u)), .scaleVecByT(@as(f32, @floatFromInt(height)), pixel_delta_v));
+            const ray_direction: vec3 = .subVecFromVec(pixel_center, camera_center);
+            const r: ray = .init(camera_center, ray_direction);
+            const pixel_color: vec3 = rayColor(r);
+            color.writeColor(pixel_color);
+        }
+    }
 }
